@@ -1,0 +1,38 @@
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local datasets are downloaded from Kaggle during reproduction.
+dataset/raw/train/
+dataset/raw/test/
+dataset/raw/test_labels.csv
+dataset/raw/*.zip
+dataset/processed/
+dataset_old/
+
+# Large or generated outputs.
+outputs/models/
+outputs/logs/
+outputs/plots/
+outputs/explanations/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+
+# Local credentials/config.
+.env
+kaggle.json
+
+# Local scratch/demo files.
+input/
+tmp_explain_test/
+
+# OS/editor noise.
+.DS_Store
+Thumbs.db
