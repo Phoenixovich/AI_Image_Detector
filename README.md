@@ -78,6 +78,14 @@ The final model is implemented in `src/final/model.py`. It is a custom CNN with 
 
 The two evidence streams are combined with a learned residual gate. This gate controls how much influence the forensic residual branch has for each image. This design was introduced because the earlier residual model helped with artifact detection, but could overpower RGB evidence if used too strongly.
 
+Inside the CNN branches, the model uses several components that make training more stable and help the network focus on subtle evidence:
+
+- **SiLU activations:** used instead of simple ReLU because SiLU is smoother and does not immediately cut all negative values to zero. This can preserve weak signals that may still be useful for detecting small forensic artifacts.
+- **Batch normalization:** keeps intermediate feature values in a stable range during training, which makes optimization more reliable.
+- **Residual connections:** let each block learn an improvement over the previous representation instead of relearning the whole feature map from scratch. This helps gradients flow through the deeper CNN.
+- **Dropout:** randomly suppresses some features during training, reducing overfitting and making the model less dependent on one visual shortcut.
+- **Squeeze-and-Excitation blocks:** channel-attention modules that summarize each feature channel, learn which channels are most useful for the current image, and scale the feature maps up or down accordingly. This helps the model emphasize important texture, edge, color, or artifact-related channels.
+
 The final model also includes auxiliary heads during training:
 
 - fused classifier loss
